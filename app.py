@@ -14,14 +14,24 @@ os.makedirs("input", exist_ok=True)
 os.makedirs("output", exist_ok=True)
 
 def process_image(image, one_pixel_size):
-    """ Gradio에서 업로드된 이미지를 처리하여 변환 """
-    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)  # OpenCV로 변환
-    resized_img = create_resized_grid(image, one_pixel_size)  # ✅ 기존 grid_sampler.py의 함수 사용
-    
+    """Gradio에서 업로드된 이미지를 처리하여 변환합니다."""
+    np_image = np.array(image)
+    if np_image.shape[2] == 4:
+        cv_image = cv2.cvtColor(np_image, cv2.COLOR_RGBA2BGRA)
+    else:
+        cv_image = cv2.cvtColor(np_image, cv2.COLOR_RGB2BGR)
+
+    resized_img = create_resized_grid(cv_image, one_pixel_size)
+
     output_path = "output/gradio_result.png"
-    save_image(resized_img, output_path)  # 결과 저장
-    
-    return resized_img, output_path  # 변환된 이미지 미리보기 및 다운로드 가능하도록 반환
+    save_image(resized_img, output_path)
+
+    if resized_img.shape[2] == 4:
+        preview = cv2.cvtColor(resized_img, cv2.COLOR_BGRA2RGBA)
+    else:
+        preview = cv2.cvtColor(resized_img, cv2.COLOR_BGR2RGB)
+
+    return preview, output_path
 
 # Gradio UI 생성
 iface = gr.Interface(

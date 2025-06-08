@@ -2,21 +2,29 @@ import cv2
 import numpy as np
 
 def create_resized_grid(image, one_pixel_size):
+    """이미지 크기를 변경하되 정사각형 픽셀을 유지합니다.
+
+    Parameters
+    ----------
+    image : ``numpy.ndarray``
+        BGR(A) 형식의 이미지 배열로 3채널 또는 4채널을 모두 지원합니다.
+    one_pixel_size : float
+        출력 이미지에서 한 픽셀이 원본에서 차지하는 크기입니다.
     """
-    1. 원본 이미지의 크기를 감지하고, 이를 픽셀 블록으로 해석
-    2. one_pixel_size를 기준으로 새로운 픽셀아트 생성 (정사각형 유지)
-    """
-    original_height, original_width, _ = image.shape
+    original_height, original_width, channels = image.shape
     
     # 새로운 그리드 크기 계산 (one_pixel_size를 이용해 정사각형 유지)
-    target_width = round(original_width / one_pixel_size)
-    target_height = round(original_height / one_pixel_size)
+    if one_pixel_size <= 0:
+        raise ValueError("one_pixel_size must be greater than 0")
+
+    target_width = max(1, round(original_width / one_pixel_size))
+    target_height = max(1, round(original_height / one_pixel_size))
     
     # 정사각형 유지 보정 (block_x == block_y 강제)
     block_size = (original_width / target_width + original_height / target_height) / 2
     
     # 새로운 이미지 생성 (초기화)
-    new_image = np.zeros((target_height, target_width, 3), dtype=np.uint8)
+    new_image = np.zeros((target_height, target_width, channels), dtype=np.uint8)
     
     for i in range(target_height):
         for j in range(target_width):

@@ -30,14 +30,10 @@ cd 90cube_grid_OPS_resampler
 ```
 
 ### **2️⃣ 가상환경 생성 및 패키지 설치**
-Windows의 경우:
-```bash
-install.bat
-```
-Mac/Linux의 경우:
+가상환경을 생성하고 패키지를 설치합니다:
 ```bash
 python -m venv venv
-source venv/bin/activate
+source venv/bin/activate  # Windows는 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -45,25 +41,21 @@ pip install -r requirements.txt
 
 ## **📌 실행 방법**
 ### **1️⃣ Gradio 웹 UI 실행**
+가상환경을 활성화한 뒤 아래 명령으로 실행합니다:
 ```bash
-start.bat
-```
-✅ 실행하면 **자동으로 웹 브라우저가 열림**  
-✅ UI에서 **이미지 업로드 → `OPS` 값 설정 → 미리보기 → 변환 결과 다운로드 가능!**  
-
-### **2️⃣ 터미널에서 수동 실행**
-```bash
-call venv\Scripts\activate
 python app.py
 ```
+✅ 실행하면 **자동으로 웹 브라우저가 열림**
+✅ UI에서 **이미지 업로드 → `OPS` 값 설정 → 미리보기 → 변환 결과 다운로드 가능!**
 
 ---
 
 ## **📌 주요 기능**
-✅ **정사각형 픽셀 유지** → 픽셀아트의 품질을 유지하면서 변환  
-✅ **OPS 값 조절 (0.5~10, 소수 가능)** → 더 정밀한 크기 조정 가능  
-✅ **Gradio 기반 웹 UI 제공** → 간편한 이미지 업로드 & 변환  
-✅ **변환된 결과 미리보기 가능** → 다운로드 전에 픽셀아트 확인  
+✅ **정사각형 픽셀 유지** → 픽셀아트의 품질을 유지하면서 변환
+✅ **OPS 값 조절 (0.5~10, 소수 가능)** → 더 정밀한 크기 조정 가능
+✅ **Gradio 기반 웹 UI 제공** → 간편한 이미지 업로드 & 변환
+✅ **변환된 결과 미리보기 가능** → 다운로드 전에 픽셀아트 확인
+✅ **알파 채널(투명도) 보존** → PNG 이미지의 투명도가 유지됨
 
 ---
 
@@ -76,13 +68,17 @@ python app.py
 │   │── grid_sampler.py  # 픽셀 변환 (그리드 기반 변환)
 │   │── image_loader.py  # 이미지 로드 & 저장 처리
 │── app.py               # Gradio 웹 UI 실행 파일
-│── install.bat          # 가상환경 생성 & 패키지 설치 자동화
-│── start.bat            # 가상환경 활성화 & Gradio 실행
 │── requirements.txt     # 필수 패키지 목록
 │── README.md            # 프로젝트 설명서
+```
+
+## **📌 테스트 실행**
+`pytest`를 이용해 기본 동작을 확인할 수 있습니다:
+```bash
+pytest
 ```
 
 ---
 
 
-🚀 **더 많은 기능이 필요하면 언제든지 피드백 주세요!**  
+🚀 **더 많은 기능이 필요하면 언제든지 피드백 주세요!**
